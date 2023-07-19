@@ -1,10 +1,11 @@
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useLocalObservable } from 'mobx-react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { observer, useLocalObservable } from 'mobx-react';
 import HomeStore from '../../stores/HomeStore';
-import { observer } from 'mobx-react';
 import FlatListView from '../../components/flowlist/FlowList.js';
 import ResizeImage from '../../components/ResizeImage';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import HomeBar from './components/HeaderBar';
 import ScrollHeader from './components//ScrollHeader';
@@ -15,6 +16,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 export default observer(() => {
 
     const store = useLocalObservable(() => new HomeStore());
+    const navigation = useNavigation<StackNavigationProp<any>>();
 
     useEffect(() => {
         store.requestHomeList();
@@ -39,10 +41,16 @@ export default observer(() => {
         console.log(value);
     };
 
+    const onArticlePress = useCallback((article: ArticleSimple) => () => {
+        navigation.push('ArticleDetail', {
+            id: article.id
+        });
+    }, []);
+
 
     const renderItem = ({item, index}: {item: ArticleSimple, index: number}) => {
         return (
-            <View style={styles.item}>
+            <TouchableOpacity style={styles.item} onPress={onArticlePress(item)}>
                 <View style={styles.itemImageWrap}>
                     <ResizeImage uri={item.image} />
                 </View>
@@ -53,7 +61,7 @@ export default observer(() => {
                     <Heart follow={item.isFavorite} onFollowChange={onFollowChange} />
                     <Text style={styles.countTxt}>{item.favoriteCount}</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     };
 

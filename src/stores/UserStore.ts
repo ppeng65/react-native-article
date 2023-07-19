@@ -1,11 +1,21 @@
-import { request } from "../utils/request";
+import { action, makeObservable, observable } from "mobx";
 import { flow } from "mobx";
+import { request } from "../utils/request";
 import { setItem } from "../utils/Storage";
 import Loading from "../components/widget/Loading";
 
 class UserStore {
 
-    userInfo: any;
+    constructor() {
+        makeObservable(this);
+    }
+
+    @observable userInfo: any;
+
+    @action
+    setUserInfo(userInfo: any) {
+        this.userInfo = userInfo;
+    }
 
     // requestLogin = async (phone: string, pwd: string, callback: (success: boolean) => void) => {
     //     try {
@@ -42,15 +52,15 @@ class UserStore {
             const { data} = yield request('login', params);
             if (data) {
                 setItem('userInfo', data);
-                this.userInfo = data;
+                this.setUserInfo(data);
                 callback?.(true);
             } else {
-                this.userInfo = null;
+                this.setUserInfo(null);
                 callback?.(false);
             }
         } catch (error) {
             console.log(error);
-            this.userInfo = null;
+            this.setUserInfo(null);
             callback?.(false);
         } finally {
             Loading.hide();

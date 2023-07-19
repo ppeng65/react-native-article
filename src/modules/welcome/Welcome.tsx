@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { getItem } from '../../utils/Storage';
+import UserStore from '../../stores/UserStore';
 
 import icon_main_logo from '../../assets/icon_main_logo.png';
 
@@ -19,6 +20,7 @@ export default () => {
     const getUserInfo = async () => {
         const userInfo = await getItem('userInfo');
         if (userInfo && userInfo.name) {
+            UserStore.setUserInfo(userInfo);
             jumpMainTab();
         } else {
             jumpLogin();
