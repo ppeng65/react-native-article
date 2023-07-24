@@ -4,30 +4,25 @@ import Loading from "../components/widget/Loading";
 
 const SIZE = 10;
 
-export default class ShopStore {
+export default class MessageStore {
 
     constructor() {
         makeObservable(this);
     }
 
-    @observable top10Category: GoodsCategory[] = [];
-
     page: number = 1;
 
-    @observable goodsList: GoodsSimple[] = [];
+    @observable messageList: MessageListItem[] = [];
 
     @observable refreshing: boolean = false;
 
     @observable loadingFinish: boolean = false;
 
-    @action
-    setTop10Category(list: GoodsCategory[]) {
-        this.top10Category = list;
-    }
+    @observable unread = {} as UnRead;
 
     @action
-    setGoodsList(list: GoodsSimple[]) {
-        this.goodsList = list;
+    setMessageList(list: MessageListItem[]) {
+        this.messageList = list || [];
     }
 
     @action
@@ -40,11 +35,16 @@ export default class ShopStore {
         this.loadingFinish = isFinish;
     }
 
+    @action
+    setUnRead(obj: UnRead) {
+        this.unread = obj;
+    }
+
     resetPage() {
         this.page = 1;
     }
 
-    requestShopList = async () => {
+    requestMessageList = async () => {
         if (this.refreshing) {
             return;
         }
@@ -56,18 +56,18 @@ export default class ShopStore {
                 page: this.page,
                 size: SIZE
             };
-            const { data } = await request('goodsList', params);
+            const { data } = await request('messageList', params);
             this.setFinish(false);
             if (data?.length) {
                 if (this.page === 1) {
-                    this.setGoodsList(data || []);
+                    this.setMessageList(data);
                 } else {
-                    this.setGoodsList([...this.goodsList, ...data]);
+                    this.setMessageList([...this.messageList, ...data]);
                 }
                 this.page = this.page + 1;
             } else {
                 if (this.page === 1) {
-                    this.setGoodsList([]);
+                    this.setMessageList([]);
                 } else {
                     this.setFinish(true);
                 }
@@ -80,10 +80,10 @@ export default class ShopStore {
         }
     }
 
-    requestTop10CateGory = async () => {
+    requestUnRead = async () => {
         try {
-            const { data } = await request('top10Category', {});
-            this.setTop10Category(data || []);
+            const { data } = await request('unread', {});
+            this.setUnRead(data || {});
         } catch (error) {
             console.log(error);
         }

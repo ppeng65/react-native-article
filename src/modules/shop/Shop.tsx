@@ -154,6 +154,7 @@ export default observer(() => {
                 style={{ flex: 1 }}
                 data={store.goodsList}
                 extraData={[store.top10Category]}
+                keyExtractor={item => `${item.id}`}
                 ListHeaderComponent={<ListHeader />}
                 numColumns={2}
                 renderItem={renderItem}
