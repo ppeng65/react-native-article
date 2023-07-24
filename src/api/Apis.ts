@@ -8,7 +8,15 @@ const apiConfig = {
         method: 'get'
     },
     articleDetail: {
-        url: 'article/articleDetail',
+        url: '/article/articleDetail',
+        method: 'get'
+    },
+    goodsList: {
+        url: '/goods/goodsList',
+        method: 'get'
+    },
+    top10Category: {
+        url: '/goods/top10Category',
         method: 'get'
     }
 }
