@@ -55,13 +55,13 @@ export default () => {
                         <Image style={styles.radioBtn} source={isSelect ? icon_selected : icon_unselected} />
                     </TouchableOpacity>
                     <Text style={styles.lableTxt}>我已阅读并同意</Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                Linking.openURL('https://www.baidu.com');
-                            }}
-                        >
-                            <Text style={styles.protocolTxt}>《用户协议》和《隐私政策》</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            Linking.openURL('https://www.baidu.com');
+                        }}
+                    >
+                        <Text style={styles.protocolTxt}>《用户协议》和《隐私政策》</Text>
+                    </TouchableOpacity>
                 </View>
             </QuickLogin>
         )
@@ -77,13 +77,13 @@ export default () => {
                         <Image style={styles.radioBtn} source={isSelect ? icon_selected : icon_unselected} />
                     </TouchableOpacity>
                     <Text style={styles.lableTxt}>我已阅读并同意</Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                Linking.openURL('https://www.baidu.com');
-                            }}
-                        >
-                            <Text style={styles.protocolTxt}>《用户协议》和《隐私政策》</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            Linking.openURL('https://www.baidu.com');
+                        }}
+                    >
+                        <Text style={styles.protocolTxt}>《用户协议》和《隐私政策》</Text>
+                    </TouchableOpacity>
                 </View>
             </InputLogin>
         )
